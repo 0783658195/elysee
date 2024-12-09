@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wind Prediction Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f8ff;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #e0f7fa;
+      text-align: center;
+      font-size: 1.2em;
+      color: #00796b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Wind Prediction Tool</h1>
+    <form id="windForm">
+      <label for="temperature">Temperature (°C):</label>
+      <input type="number" id="temperature" name="temperature" required>
+
+      <label for="altitude">Altitude (meters):</label>
+      <input type="number" id="altitude" name="altitude" required>
+
+      <label for="season">Season:</label>
+      <select id="season" name="season" required>
+        <option value="summer">Summer</option>
+        <option value="winter">Winter</option>
+        <option value="spring">Spring</option>
+        <option value="autumn">Autumn</option>
+      </select>
+
+      <button type="button" id="predictBtn">Predict Wind Speed</button>
+    </form>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    document.getElementById('predictBtn').addEventListener('click', function () {
+      // Fetch user inputs
+      const temperature = parseFloat(document.getElementById('temperature').value);
+      const altitude = parseFloat(document.getElementById('altitude').value);
+      const season = document.getElementById('season').value;
+
+      // Basic algorithm for wind speed prediction
+      let baseWindSpeed = 5; // Base wind speed in m/s
+
+      // Adjust based on temperature
+      if (temperature < 0) baseWindSpeed += 3;
+      else if (temperature > 30) baseWindSpeed -= 1;
+
+      // Adjust based on altitude
+      baseWindSpeed += altitude / 1000;
+
+      // Adjust based on season
+      if (season === 'winter') baseWindSpeed += 2;
+      else if (season === 'summer') baseWindSpeed -= 2;
+
+      // Output the result
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = `Estimated Wind Speed: ${baseWindSpeed.toFixed(2)} m/s`;
+    });
+  </script>
+</body>
+</html>
